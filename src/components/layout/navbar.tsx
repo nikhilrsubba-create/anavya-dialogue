@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
@@ -20,6 +20,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  const { scrollYProgress } = useScroll();
+  const progressWidth = useSpring(scrollYProgress, { stiffness: 120, damping: 25, restDelta: 0.001 });
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -28,16 +31,22 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-brand-cream/90 backdrop-blur-md shadow-sm border-b border-brand-gold/20 py-2" : "bg-transparent py-4"}`}>
+      <motion.div
+        style={{ scaleX: progressWidth }}
+        className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-brand-terracotta via-brand-gold to-brand-terracotta origin-left"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/logo.jpeg"
-              alt="Anvaya Logo"
-              width={42}
-              height={42}
-              className="object-contain rounded-full"
-            />
+          <Link href="/" className="flex items-center gap-3 group">
+            <motion.div whileHover={{ rotate: 8, scale: 1.06 }} transition={{ type: "spring", stiffness: 300, damping: 15 }}>
+              <Image
+                src="/logo.jpeg"
+                alt="Anvaya Logo"
+                width={42}
+                height={42}
+                className="object-contain rounded-full"
+              />
+            </motion.div>
             <span className="flex flex-col">
               <span className="text-xl font-bold font-serif tracking-wide text-brand-charcoal leading-tight">Anvaya</span>
               <span className="text-[10px] uppercase tracking-widest text-brand-terracotta -mt-0.5">The Dialogue</span>
@@ -52,9 +61,11 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-            <Link href="/submit-abstract" className="bg-brand-terracotta text-white px-5 py-2.5 rounded text-sm font-medium tracking-wide hover:bg-brand-charcoal transition-colors duration-300 shadow-md">
-              Submit Abstract
-            </Link>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+              <Link href="/submit-abstract" className="bg-brand-terracotta text-white px-5 py-2.5 rounded text-sm font-medium tracking-wide hover:bg-brand-charcoal transition-colors duration-300 shadow-md inline-block">
+                Submit Abstract
+              </Link>
+            </motion.div>
           </div>
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)} aria-label={isOpen ? "Close menu" : "Open menu"} className="text-brand-charcoal hover:text-brand-terracotta">{isOpen ? <X size={24} /> : <Menu size={24} />}</button>

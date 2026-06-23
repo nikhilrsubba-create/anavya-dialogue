@@ -1,10 +1,18 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Mail, Globe, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-darkNavy text-brand-cream/90">
+    <motion.footer
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="bg-brand-darkNavy text-brand-cream/90"
+    >
       <div className="h-[3px] bg-gradient-to-r from-brand-terracotta via-brand-gold to-brand-terracotta" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -19,17 +27,17 @@ export default function Footer() {
           <div>
             <h4 className="text-sm uppercase tracking-wider text-brand-gold font-semibold mb-4">Quick Navigation</h4>
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <Link href="/about" className="hover:text-brand-gold">About</Link>
-              <Link href="/conference" className="hover:text-brand-gold">Conference</Link>
-              <Link href="/call-for-papers" className="hover:text-brand-gold">Call For Papers</Link>
-              <Link href="/submit-abstract" className="hover:text-brand-gold">Submit Abstract</Link>
+              <Link href="/about" className="hover:text-brand-gold transition-colors">About</Link>
+              <Link href="/conference" className="hover:text-brand-gold transition-colors">Conference</Link>
+              <Link href="/call-for-papers" className="hover:text-brand-gold transition-colors">Call For Papers</Link>
+              <Link href="/submit-abstract" className="hover:text-brand-gold transition-colors">Submit Abstract</Link>
             </div>
           </div>
           <div>
             <h4 className="text-sm uppercase tracking-wider text-brand-gold font-semibold mb-4">Official Desk</h4>
             <div className="space-y-3 text-sm">
-              <a href="mailto:info@anvayathedialogue.org" className="flex items-center space-x-3 hover:text-brand-gold"><Mail size={16} /> <span>info@anvayathedialogue.org</span></a>
-              <a href="https://www.anvayathedialogue.org" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-brand-gold"><Globe size={16} /> <span>www.anvayathedialogue.org</span></a>
+              <a href="mailto:info@anvayathedialogue.org" className="flex items-center space-x-3 hover:text-brand-gold transition-colors"><Mail size={16} /> <span>info@anvayathedialogue.org</span></a>
+              <a href="https://www.anvayathedialogue.org" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-brand-gold transition-colors"><Globe size={16} /> <span>www.anvayathedialogue.org</span></a>
               <div className="flex items-center space-x-3 text-brand-cream/70"><MapPin size={16} /> <span>South Asia Focus Group Initiative</span></div>
             </div>
           </div>
@@ -38,6 +46,6 @@ export default function Footer() {
           © {new Date().getFullYear()} Anvaya: The Dialogue. All rights reserved.
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

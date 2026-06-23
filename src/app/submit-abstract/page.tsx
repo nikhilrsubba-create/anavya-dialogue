@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { UploadCloud, FileCheck2, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { UploadCloud, FileCheck2, X, CheckCircle2, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { SUB_THEMES } from "@/lib/themes";
 
@@ -220,15 +221,22 @@ export default function SubmitAbstract() {
             {!pdfFile ? (
               <label
                 htmlFor="pdf-upload"
-                className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-brand-gold/40 rounded-lg py-8 px-4 text-center cursor-pointer hover:border-brand-terracotta hover:bg-brand-gold/5 transition-colors"
+                className="group flex flex-col items-center justify-center gap-2 border-2 border-dashed border-brand-gold/40 rounded-lg py-8 px-4 text-center cursor-pointer hover:border-brand-terracotta hover:bg-brand-gold/5 transition-colors"
               >
-                <UploadCloud size={26} className="text-brand-terracotta" />
+                <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 300, damping: 15 }}>
+                  <UploadCloud size={26} className="text-brand-terracotta" />
+                </motion.div>
                 <span className="text-sm text-brand-charcoal/70">
                   <span className="text-brand-terracotta font-medium">Click to upload</span> your abstract PDF
                 </span>
               </label>
             ) : (
-              <div className="flex items-center justify-between border border-brand-gold/30 bg-brand-gold/5 rounded-lg px-4 py-3">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                className="flex items-center justify-between border border-brand-gold/30 bg-brand-gold/5 rounded-lg px-4 py-3"
+              >
                 <div className="flex items-center gap-2 text-sm text-brand-charcoal min-w-0">
                   <FileCheck2 size={18} className="text-brand-terracotta shrink-0" />
                   <span className="truncate">{pdfFile.name}</span>
@@ -244,32 +252,43 @@ export default function SubmitAbstract() {
                 >
                   <X size={16} />
                 </button>
-              </div>
+              </motion.div>
             )}
           </div>
 
-          {status.type !== "idle" && (
-            <div
-              role="status"
-              className={`text-sm p-3 rounded-lg ${
-                status.type === "success"
-                  ? "bg-green-50 text-green-800 border border-green-200"
-                  : status.type === "error"
-                  ? "bg-red-50 text-red-700 border border-red-200"
-                  : "bg-brand-gold/10 text-brand-charcoal"
-              }`}
-            >
-              {status.message}
-            </div>
-          )}
+          <AnimatePresence mode="wait">
+            {status.type !== "idle" && (
+              <motion.div
+                key={status.type + status.message}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                role="status"
+                className={`flex items-start gap-2 text-sm p-3 rounded-lg ${
+                  status.type === "success"
+                    ? "bg-green-50 text-green-800 border border-green-200"
+                    : status.type === "error"
+                    ? "bg-red-50 text-red-700 border border-red-200"
+                    : "bg-brand-gold/10 text-brand-charcoal"
+                }`}
+              >
+                {status.type === "success" && <CheckCircle2 size={16} className="mt-0.5 shrink-0" />}
+                {status.type === "loading" && <Loader2 size={16} className="mt-0.5 shrink-0 animate-spin" />}
+                <span>{status.message}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <button
+          <motion.button
+            whileHover={status.type === "loading" ? {} : { scale: 1.01 }}
+            whileTap={status.type === "loading" ? {} : { scale: 0.98 }}
             type="submit"
             disabled={status.type === "loading"}
-            className="w-full bg-brand-terracotta text-white py-3 rounded-lg text-sm font-medium tracking-wide hover:bg-brand-charcoal transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-brand-terracotta text-white py-3 rounded-lg text-sm font-medium tracking-wide hover:bg-brand-charcoal transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
+            {status.type === "loading" && <Loader2 size={16} className="animate-spin" />}
             {status.type === "loading" ? "Submitting..." : "Submit Abstract"}
-          </button>
+          </motion.button>
         </form>
       </div>
     </div>

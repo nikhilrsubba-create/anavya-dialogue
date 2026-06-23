@@ -27,10 +27,12 @@ export default function CallForPapers() {
             return (
               <motion.div
                 key={theme}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.03 }}
-                className="bg-white p-5 rounded-xl border border-brand-gold/20 hover:border-brand-terracotta/40 hover:shadow-md transition-all"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: (idx % 6) * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -5 }}
+                className="bg-white p-5 rounded-xl border border-brand-gold/20 hover:border-brand-terracotta/40 hover:shadow-md transition-[border-color,box-shadow]"
               >
                 <div className="w-10 h-10 bg-brand-gold/10 text-brand-terracotta rounded-lg flex items-center justify-center mb-3">
                   <Icon size={18} />

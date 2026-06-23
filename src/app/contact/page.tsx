@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, CheckCircle2, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function ContactPage() {
@@ -42,9 +43,13 @@ export default function ContactPage() {
   return (
     <div className="bg-brand-cream min-h-screen py-16 sm:py-20 px-4">
       <div className="max-w-xl mx-auto">
-        <div className="w-11 h-11 bg-brand-terracotta/10 text-brand-terracotta rounded-lg flex items-center justify-center mb-5">
+        <motion.div
+          whileHover={{ rotate: -8, scale: 1.06 }}
+          transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          className="w-11 h-11 bg-brand-terracotta/10 text-brand-terracotta rounded-lg flex items-center justify-center mb-5"
+        >
           <Mail size={20} />
-        </div>
+        </motion.div>
         <h1 className="text-4xl font-serif text-brand-darkNavy mb-2">Contact Secretariat</h1>
         <p className="text-sm text-brand-charcoal/60 mb-8">Questions about submissions, registration, or the programme? Send us a note.</p>
 
@@ -88,28 +93,39 @@ export default function ContactPage() {
             />
           </div>
 
-          {status.type !== "idle" && (
-            <div
-              role="status"
-              className={`text-sm p-3 rounded-lg ${
-                status.type === "success"
-                  ? "bg-green-50 text-green-800 border border-green-200"
-                  : status.type === "error"
-                  ? "bg-red-50 text-red-700 border border-red-200"
-                  : "bg-brand-gold/10 text-brand-charcoal"
-              }`}
-            >
-              {status.message}
-            </div>
-          )}
+          <AnimatePresence mode="wait">
+            {status.type !== "idle" && (
+              <motion.div
+                key={status.type + status.message}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                role="status"
+                className={`flex items-start gap-2 text-sm p-3 rounded-lg ${
+                  status.type === "success"
+                    ? "bg-green-50 text-green-800 border border-green-200"
+                    : status.type === "error"
+                    ? "bg-red-50 text-red-700 border border-red-200"
+                    : "bg-brand-gold/10 text-brand-charcoal"
+                }`}
+              >
+                {status.type === "success" && <CheckCircle2 size={16} className="mt-0.5 shrink-0" />}
+                {status.type === "loading" && <Loader2 size={16} className="mt-0.5 shrink-0 animate-spin" />}
+                <span>{status.message}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <button
+          <motion.button
+            whileHover={status.type === "loading" ? {} : { scale: 1.01 }}
+            whileTap={status.type === "loading" ? {} : { scale: 0.98 }}
             type="submit"
             disabled={status.type === "loading"}
-            className="w-full bg-brand-terracotta text-white py-3 rounded-lg text-sm font-medium tracking-wide hover:bg-brand-charcoal transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-brand-terracotta text-white py-3 rounded-lg text-sm font-medium tracking-wide hover:bg-brand-charcoal transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
+            {status.type === "loading" && <Loader2 size={16} className="animate-spin" />}
             {status.type === "loading" ? "Sending..." : "Send Message"}
-          </button>
+          </motion.button>
         </form>
       </div>
     </div>

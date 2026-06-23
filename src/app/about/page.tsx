@@ -19,10 +19,12 @@ export default function AboutPage() {
         {pillars.map((p, idx) => (
           <motion.div
             key={p.title}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.05 }}
-            className="bg-white border border-brand-gold/20 p-6 rounded-xl shadow-sm hover:border-brand-terracotta/40 hover:shadow-md transition-all"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ delay: idx * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -5 }}
+            className="bg-white border border-brand-gold/20 p-6 rounded-xl shadow-sm hover:border-brand-terracotta/40 hover:shadow-md transition-[border-color,box-shadow]"
           >
             <div className="w-10 h-10 bg-brand-gold/10 text-brand-terracotta rounded-lg flex items-center justify-center mb-4">
               <p.icon size={20} />
