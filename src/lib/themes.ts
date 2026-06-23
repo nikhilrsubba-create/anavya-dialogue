@@ -1,0 +1,17 @@
+export const SUB_THEMES = [
+  "Popular Music and Contemporary Culture",
+  "Cinema, Television and Streaming Platforms",
+  "Social Media and Digital Cultures",
+  "Youth, Identity and Popular Culture",
+  "Folk Traditions and Popular Culture",
+  "Gender and Representation in Popular Media",
+  "Celebrity Culture and Fandom",
+  "Migration, Diaspora and Cultural Flows",
+  "Popular Religion and Public Culture",
+  "Language, Literature and Popular Narratives",
+  "Indigenous Cultures and Popular Media",
+  "Cultural Heritage and Popular Culture",
+  "Artificial Intelligence and Digital Creativity",
+  "Sports, Leisure and Popular Culture",
+  "Other related themes",
+];

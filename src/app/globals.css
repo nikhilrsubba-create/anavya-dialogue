@@ -2,18 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
-}
-
 body {
   background-color: #FAF6F0;
   color: #2C2C2C;
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4, .font-serif {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* Visible keyboard focus, kept in brand terracotta */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #A35C37;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Shared field styling used across Contact + Submit Abstract */
+.field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1E2A38;
+  margin-bottom: 0.375rem;
+}
+
+.field-input {
+  width: 100%;
+  border: 1px solid rgba(197, 168, 128, 0.4);
+  background-color: #FFFFFF;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+  color: #2C2C2C;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input::placeholder {
+  color: #9c9388;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #A35C37;
+  box-shadow: 0 0 0 3px rgba(163, 92, 55, 0.12);
 }
