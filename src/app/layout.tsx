@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import SmoothScrollProvider from "@/components/providers/smooth-scroll";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -27,9 +28,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body className="flex flex-col min-h-screen antialiased bg-brand-cream selection:bg-brand-gold selection:text-white">
-        <Navbar />
-        <main className="flex-grow pt-20">{children}</main>
-        <Footer />
+        <SmoothScrollProvider>
+          <Navbar />
+          <main className="flex-grow pt-20">{children}</main>
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

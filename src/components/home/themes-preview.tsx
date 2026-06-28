@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Film, Radio, Users, Sparkles } from "lucide-react";
+import TiltCard from "@/components/ui/tilt-card";
 
 const highlightThemes = [
   { title: "Cinema, Streaming & TV", desc: "Analyzing cross-border streaming platforms, narrative shifts, and changing audience topologies.", icon: Film },
@@ -22,18 +23,18 @@ export default function ThemesPreview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -6 }}
-              className="bg-brand-cream/40 border border-brand-gold/20 p-6 rounded-lg hover:border-brand-terracotta/40 hover:shadow-lg transition-[border-color,box-shadow] group"
             >
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 6 }}
-                transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                className="w-10 h-10 bg-brand-gold/10 text-brand-terracotta rounded flex items-center justify-center mb-4 group-hover:bg-brand-terracotta group-hover:text-white transition-colors"
-              >
-                <theme.icon size={20} />
-              </motion.div>
-              <h3 className="text-lg font-serif font-bold text-brand-charcoal mb-2">{theme.title}</h3>
-              <p className="text-sm text-brand-charcoal/70 leading-relaxed">{theme.desc}</p>
+              <TiltCard className="bg-brand-cream/40 border border-brand-gold/20 p-6 rounded-lg hover:border-brand-terracotta/40 hover:shadow-xl transition-[border-color,box-shadow] group overflow-hidden">
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 6 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  className="w-10 h-10 bg-brand-gold/10 text-brand-terracotta rounded flex items-center justify-center mb-4 group-hover:bg-brand-terracotta group-hover:text-white transition-colors"
+                >
+                  <theme.icon size={20} />
+                </motion.div>
+                <h3 className="text-lg font-serif font-bold text-brand-charcoal mb-2">{theme.title}</h3>
+                <p className="text-sm text-brand-charcoal/70 leading-relaxed">{theme.desc}</p>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

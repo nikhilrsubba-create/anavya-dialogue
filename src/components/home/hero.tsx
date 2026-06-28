@@ -2,8 +2,10 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import { FileText } from "lucide-react";
+
+const Hero3D = dynamic(() => import("@/components/home/hero-3d"), { ssr: false });
 
 const container = {
   hidden: { opacity: 0 },
@@ -47,21 +49,11 @@ export default function Hero() {
         animate="show"
         className="max-w-4xl mx-auto text-center relative z-10 py-12"
       >
-        {/* Logo */}
-        <motion.div variants={item} className="flex justify-center mb-8">
-          <motion.div
-            animate={reduceMotion ? {} : { y: [0, -6, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <Image
-              src="/logo.jpeg"
-              alt="Anvaya Logo"
-              width={250}
-              height={250}
-              priority
-              className="object-contain drop-shadow-sm"
-            />
-          </motion.div>
+        {/* Logo, rendered as a real lit object in 3D space */}
+        <motion.div variants={item} className="flex justify-center mb-2 -mt-4">
+          <div className="w-full max-w-[280px] h-[260px] sm:max-w-[340px] sm:h-[320px]">
+            <Hero3D />
+          </div>
         </motion.div>
 
         {/* Subtitle */}
